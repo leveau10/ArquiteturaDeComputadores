@@ -30,23 +30,49 @@ nuvem:
 	lui $9 0x1001
 	addi $9 $9 2096
 	add $8 $0 $0
-	add $10 $0 $0
-	addi $5 $0 0x00ff0000
+	add $10 $31 $0
+	addi $5 $0 0x00ffffff
+	jal forNuvem
+	lui $9 0x1001
+	addi $9 $9 2736
+	add $8 $0 $0
+	jal forNuvem
+	lui $9 0x1001
+	addi $9 $9 3700
+	add $8 $0 $0
+	jal forNuvem
+	lui $9 0x1001
+	addi $9 $9 3444
+	add $8 $0 $0
+	jal forNuvem
+	lui $9 0x1001
+	addi $9 $9 3560
+	add $8 $0 $0
+	jal forNuvem
+	lui $9 0x1001
+	addi $9 $9 3828
+	add $8 $0 $0
+	jal forNuvem
+	
+	jr $10
 forNuvem:
-	beq $8 3 nuvemCima
+	beq $8 3 nuvemSai
 	
 	sw $5 0($9)
 	sw $5 4($9)
 	sw $5 8($9)
+	sw $5 -504($9)
+	sw $5 -500($9)
+	sw $5 -496($9)
 	sw $5 12($9)
 	sw $5 16($9)
 	sw $5 20($9)
+
 	addi $8 $8 1
 	j forNuvem
-nuvemCima:
-	
-ceu2:
+nuvemSai:
 	jr $31
+
 terra:   lui $9, 0x1001
 		add $9 $9 24576 #terra no ultimo quarto 
         	add $8, $0, $0
