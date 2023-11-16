@@ -23,6 +23,7 @@ forCeu:
 	beq $8 8192 nuvem
 	
 	sw $5 0($9)
+	sw $5 32768($9)
 	addi $9 $9 4
 	addi $8 $8 1
 	j forCeu
@@ -60,14 +61,23 @@ forNuvem:
 	beq $8 3 nuvemSai
 	
 	sw $5 0($9)
+	sw $5 32768($9)
 	sw $5 4($9)
+	sw $5 32772($9)
 	sw $5 8($9)
+	sw $5 32776($9)
 	sw $5 -504($9)
+	sw $5 32264($9)
 	sw $5 -500($9)
+	sw $5 32260($9)
 	sw $5 -496($9)
+	sw $5 32256($9)
 	sw $5 12($9)
+	sw $5 32780($9)
 	sw $5 16($9)
+	sw $5 32784($9)
 	sw $5 20($9)
+	sw $5 32788($9)
 
 	addi $8 $8 1
 	j forNuvem
@@ -82,6 +92,8 @@ forTerra:   beq $8, 256, terra2
 		
         
         	sw $5, 0($9)
+        	sw $5 32768($9)
+        	
         	addi $9, $9, 4
         	addi $8, $8, 1
         	j forTerra
@@ -91,6 +103,7 @@ forTerra2:
 
 	beq $8 2048 terra3
 	sw $5 0($9)
+	sw $5 32768($9)
 	addi $9 $9 4
 	addi $8 $8 1
 	j forTerra2
@@ -105,8 +118,11 @@ forArvoresPrim:
 	beq $10 10 folhagem
 
 	sw $5 0($9)
+	sw $5 32768($9)
 	sw $5 4($9)
+	sw $5 32772($9)
 	sw $5 8($9)
+	sw $5 32776($9)
 arvoresPrim2:
 	subi $9 $9 512
 	addi $10 $10 1
@@ -118,13 +134,21 @@ forFolhagem:
 	beq $10 5 arvoresPrim3
 	
 	sw $5 -8($9)
+	sw $5 32760($9)
 	sw $5 -4($9)
+	sw $5 32764($9)
 	sw $5 0($9)
+	sw $5 32768($9)
 	sw $5 4($9)
+	sw $5 32772($9)
 	sw $5 8($9)
+	sw $5 32776($9)
 	sw $5 12($9)
+	sw $5 32780($9)
 	sw $5 16($9)
+	sw $5 32784($9)
 	sw $5 20($9)
+	sw $5 32788($9)
 	
 	subi $9 $9 512
 	addi $10 $10 1
@@ -142,6 +166,7 @@ forArvoresSec:
 	beq $10 14 folhagem2
 
 	sw $5 0($9)
+	
 	sw $5 4($9)
 	sw $5 8($9)
 arvoresSec2:
@@ -389,3 +414,8 @@ xisOut:
 ###	sw $5 24080($9)
 ##	sw $5 24084($9)
 ##	jr $31
+
+
+
+
+
