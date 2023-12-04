@@ -5,31 +5,61 @@ main:
 	
 	jal cenario  #renderiza cenario
 	
-	addi $11 $0 24064 # personagem
-	jal pe 
-	jal tronco
-	addi $2 $0 1 #ver se perna soldado ou perna personagem
-	addi $11 $0 24132 # soldadoUm
-	jal pe
-	jal tronco
-	addi $11 $0 24256 # soldadoDois	
-	jal pe 
-	jal tronco
-	addi $11 $0 24312 # soldadoTres
-	jal pe
-	jal tronco
-	
-	
-	
+	# addi $11 $0 24064 # personagem $20
 
-	j end
-	
+	addi $21 $0 24152 # soldadoUm
 
+	
+	addi $22 $0 24256 # soldadoDois	
+
+	
+	addi $23 $0 24312 # soldadoTres
+
+
+	j rotinaP
+
+rotinaP:
+	#9 para npc mover
+	add $9 $0 $0
+	add $27 $0 4
+rotinaP2:
+	beq $9 30 voltaNpc
+	add $21 $21 $27
+	add $22 $22 $27
+	add $23 $23 $27
+	add $11 $0 $21
+	jal soldadoUm
+	add $11 $0 $22
+	jal soldadoDois
+	add $11 $0 $23
+	jal soldadoTres
+	jal sleept
+	
+	add $11 $0 $21
+	jal deleteSoldado
+	add $11 $0 $22
+	jal deleteSoldado
+	add $11 $0 $23
+	jal deleteSoldado
+	
+	
+	
+	
+	
+	addi $9 $9 1
+	j rotinaP2
+		
+voltaNpc:
+	
+	mul $27 $27 -1
+	
+	add $9 $0 $0
+	j rotinaP2
+	
 cenario:
 	lui $8 0x1001
 	addi $10 $0 8192
 cenarioFor:
-	
 	addi $10 $10 -1
 	lw $9 0($8)
 	sw $9 0($8)
@@ -39,80 +69,166 @@ cenarioFor:
 	
 	jr $31
 
-pe:
+soldadoUm:
 	addi $5 $0 0x00000000
 	lui $8 0x1001
 	add $8 $8 $11
+	sw $5 -4($8)
 	sw $5 0($8)
 	sw $5 4($8)
-	sw $5 8($8)
 	
-	sw $5 16($8)
-	sw $5 20($8)
-	sw $5 24($8)
+	
+	add $12 $0 $31
+	jal pernas
+	jal cabeca
+	jr $12
+soldadoDois:
+	addi $5 $0 0x00000000
+	lui $8 0x1001
+	add $8 $8 $11
+	sw $5 -4($8)
+	sw $5 0($8)
+	sw $5 4($8)
+	
+	
+	add $12 $0 $31
+	jal pernas
+	jal cabeca	
+	jr $12
+soldadoTres:
+	addi $5 $0 0x00000000
+	lui $8 0x1001
+	add $8 $8 $11
+	sw $5 -4($8)
+	sw $5 0($8)
+	sw $5 4($8)
+	
+	
 	add $12 $0 $31
 	jal pernas	
+	jal cabeca
 	jr $12
-	
 pernas:
 	add $10 $0 $0
 	addi $5 $0 0x0022b14c
-	beq $2 1 pernasForSoldado
+	
 pernasFor:
 	
-	beq $10 2 pernasSai
+	beq $10 5 pernasSai
 	sw $5 -512($8)
 	sw $5 -508($8)
 	
-	sw $5 -496($8)
-	sw $5 -492($8)
-	
-
 	addi $10 $10 1
 	addi $8 $8 -512
 	j pernasFor
-pernasForSoldado:
 
-	beq $10 2 pernasSai
-	sw $5 -504($8)
+pernasSai:
+	addi $5 $0 0x00000000
+	sw $5 0($8)
+	sw $5 -4($8)
+	sw $5 -8($8)
+	
+	
+	jr $31
+cabeca:
+	add $10 $0 $0
+	addi $5 $0 0x00ffff00
+cabecaFor:
+	beq $10 2 cabecasai
+	sw $5 -512($8)
 	sw $5 -508($8)
 	
-	sw $5 -492($8)
-	sw $5 -488($8)
-	
-
 	addi $10 $10 1
 	addi $8 $8 -512
-	j pernasForSoldado
-pernasSai:
-	jr $31		
-
-						
-tronco:	 ##########tronco
-	addi $5 $0 0x00ff0000												# NAO MEXA NO DOLAR 11
-	addi $8 $8 -512
-	add $10 $0 $0
-	add $13 $0 $0
-	add $12 $0 $31
-	beq $2 0 troncoFor
-troncoSoldado:
-	addi $8 $8 4
-	addi $5 $0 0x0000ffff
-troncoFor:
-	beq $10 3 troncoSai
-	beq $13 6 troncoControl
+	j cabecaFor
+cabecasai:
+	addi $8 $8 512
+	jr $31	
 	
+	
+	
+	
+deleteSoldado:
+	lui $8 0x1001
+	add $8 $8 $11
+	lw $5 32764($8)
+	sw $5 -4($8)
+	sw $5 32764($8)
+	
+	lw $5 32768($8)
 	sw $5 0($8)
-	addi $13 $13 1
-	addi $8 $8 4
-	j troncoFor
-troncoControl:
-	addi $8 $8 -536
-	add $13 $0 $0
-	add $10 $10 1
-	j troncoFor
-troncoSai:
-	jr $31							
+	sw $5 32768($8)
+	
+	lw $5 32772($8)
+	sw $5 4($8)
+	sw $5 32772($8)
+	
+	add $12 $0 $31
+	jal deletePernas
+	jal deletecabeca
+	jr $12
+deletePernas:
+	add $10 $0 $0
+	
+deletePernasFor:
+	beq $10 5 deletePernasSai
+	
+	lw $5 32256($8)
+	sw $5 -512($8)
+	sw $5 32256($8)
+	
+	lw $5 32252($8)
+	sw $5 -508($8)
+	sw $5 32252($8)
+	
+	addi $10 $10 1
+	addi $8 $8 -512
+	j deletePernasFor
+
+deletePernasSai:
+	lw $5 32768($8)
+	sw $5 0($8)
+	sw $5 32768($8)
+	
+	lw $5 32764($8)
+	sw $5 -4($8)
+	sw $5 32764($8)
+	
+	lw $5 32760($8)
+	sw $5 -8($8)
+	sw $5 32760($8)
+	
+	
+	jr $31
+deletecabeca:
+	add $10 $0 $0
+deletecabecaFor:
+	beq $10 2 deletecabecasai
+	lw $5 32256($8)
+	sw $5 -512($8)
+	sw $5 32256($8)
+	
+	
+	lw $5 32252($8)
+	sw $5 -508($8)
+	sw $5 32252($8)
+	
+	
+	addi $10 $10 1
+	addi $8 $8 -512
+	j deletecabecaFor
+deletecabecasai:
+	jr $31	
 end:
 	addi $2 $0 10
 	syscall	
+	
+	
+	
+	
+sleept:  addi $20, $0, 100000
+forST:   beq $20, $0, fimST
+         nop
+         addi $20, $20, -1        
+         j forST  
+fimST:   jr $31
